@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  scroll-behavior: smooth !important;
+}
+
+/* It makes the HTML progress bar filling smooth when value change. */
+progress::-webkit-progress-value {
+  transition: 0.6s width ease-out;
+}
+
+@layer base {
+  .btn-gradient {
+    @apply !bg-gradient !bg-[length:300%_300%] hover:saturate-[1.2] shadow duration-100 !border-0 !border-transparent !bg-transparent animate-shimmer disabled:!bg-none disabled:!bg-gray-500/30  !text-white;
+  }
+  .btn {
+    @apply !capitalize;
+  }
+}
+/* 全局滚动条样式 */
+*::-webkit-scrollbar {
+  width: 10px;  /* 垂直滚动条宽度 */
+  height: 10px; /* 水平滚动条高度 */
+}
+
+*::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 支持 Firefox 的样式 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f10f;
+}
+
+/* 暗色模式适配 */
+@media (prefers-color-scheme: dark) {
+  *::-webkit-scrollbar-track {
+    background: #2d2d2d;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background: #5c5c5c;
+  }
+  
+  *::-webkit-scrollbar-thumb:hover {
+    background: #707070;
+  }
+
+  * {
+    scrollbar-color: #5c5c5c #2d2d2d;
+  }
+}
+/** 去掉默认的背景颜色 */
+audio::-webkit-media-controls-enclosure{
+  background-color:unset;
+}
+/* 可选 - 为特定容器定制滚动条 */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  background: rgba(0,0,0,0.1);
+}
+
+/* 可选 - 彩色滚动条方案 */
+.theme-purple {
+  --scroll-thumb: #9b59b6;
+  --scroll-track: #f5e6ff;
+}
+.theme-purple::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+}

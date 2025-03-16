@@ -1,0 +1,1 @@
+ALTER TABLE "next_auth"."music" ADD COLUMN "task_id" text;

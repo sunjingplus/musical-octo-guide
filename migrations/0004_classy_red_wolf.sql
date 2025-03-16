@@ -1,0 +1,1 @@
+ALTER TABLE "next_auth"."music" ALTER COLUMN "audio_url" DROP NOT NULL;
