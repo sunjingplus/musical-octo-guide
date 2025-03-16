@@ -4,7 +4,7 @@ import { articles } from "../_assets/content";
 import BadgeCategory from "../_assets/components/BadgeCategory";
 import Avatar from "../_assets/components/Avatar";
 import {getSEOTags } from "../../../libs/seo";
-import config from "../config";
+import config from "../../../../config";
 
 export async function generateMetadata({ params }) {
   const article = articles.find((article) => article.slug === params.articleId);

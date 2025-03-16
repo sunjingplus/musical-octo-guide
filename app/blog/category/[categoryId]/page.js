@@ -2,7 +2,7 @@ import { categories, articles } from "../../_assets/content";
 import CardArticle from "../../_assets/components/CardArticle";
 import CardCategory from "../../_assets/components/CardCategory";
 import {getSEOTags } from "../../../../libs/seo";
-import config from "../config";
+import config from "../../../../config";
 
 export async function generateMetadata({ params }) {
   const category = categories.find(
