@@ -241,7 +241,7 @@ const VideoTestimonial = ({ i }) => {
           width={testimonial.videoWidth}
           height={testimonial.videoHeight}
           onLoadedData={() => {
-            console.log("Video is loaded!");
+            // console.log("Video is loaded!");
             setIsLoading(false);
           }}
         >

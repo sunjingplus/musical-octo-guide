@@ -22,10 +22,10 @@ const WhyMusic = () => {
         <div className="text-white w-full md:w-[35vw] p-6 bg-red-500/20 rounded-md">
           <p className="text-base">
             Opting for the AI Music Generator on makebestmusic.com provides the
-            tools and versatility to bring your vision to life, whether you're
+            tools and versatility to bring your vision to life, whether youre
             adding depth to a film score, creating an immersive atmosphere for a
             video game, or simply exploring new musical landscapes. The
-            platform's extensive library and advanced capabilities ensure that
+            platforms extensive library and advanced capabilities ensure that
             every piece of music it produces is of superior quality and
             distinctively tailored to your creative vision.
           </p>

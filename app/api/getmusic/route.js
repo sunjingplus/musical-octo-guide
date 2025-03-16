@@ -41,12 +41,12 @@ export async function GET(req) {
     );
   }
   const userId = user[0].id;
-  console.log("userId", userId);
+  // console.log("userId", userId);
 
   try {
     // 计算偏移量
     const offset = (page - 1) * limit;
-    console.log("userid", userId);
+    // console.log("userid", userId);
 
     // 查询用户的所有音乐记录（分页）
     const musicList = await db
@@ -55,7 +55,7 @@ export async function GET(req) {
       .where(eq(music.userId, userId))
       .limit(limit)
       .offset(offset);
-    console.log(musicList);
+    // console.log(musicList);
 
     // 转换字段名以匹配前端期望的格式
     const transformedList = musicList.map((item) => ({

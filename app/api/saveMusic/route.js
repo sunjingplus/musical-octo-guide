@@ -80,7 +80,7 @@ export async function POST(req) {
             )
           );
         if (existingIds.length > 0) {
-          console.log("Item already exists:", item.id);
+          // console.log("Item already exists:", item.id);
         } else {
           // 插入新数据
           await db.insert(music).values({
@@ -90,7 +90,7 @@ export async function POST(req) {
             taskId: item.task_id,
             userId: user.id,
           });
-          console.log("Item saved successfully:", item.id);
+          // console.log("Item saved successfully:", item.id);
         }
       } catch (validationError) {
         // 记录验证失败的数据

@@ -28,8 +28,8 @@ export async function POST(req) {
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15);
     const destinationBlobName = `audio-files/${uniqueId}.mp3`;
-    console.log("Destination Blob Name:", destinationBlobName);
-    console.log("MP3 URL:", data.mp3Url);
+    // console.log("Destination Blob Name:", destinationBlobName);
+    // console.log("MP3 URL:", data.mp3Url);
 
     // 下载 MP3 文件
     let response;
@@ -47,7 +47,7 @@ export async function POST(req) {
     }
 
     const buffer = await response.arrayBuffer();
-    console.log("File downloaded successfully. Buffer length:", buffer.byteLength);
+    // console.log("File downloaded successfully. Buffer length:", buffer.byteLength);
 
     // 上传到 Google Cloud Storage
     try {
@@ -55,7 +55,7 @@ export async function POST(req) {
         .bucket(bucketName)
         .file(destinationBlobName)
         .save(Buffer.from(buffer));
-      console.log("File uploaded successfully");
+      // console.log("File uploaded successfully");
     } catch (error) {
       console.error("Upload error:", error.message, error.stack);
       return NextResponse.json(

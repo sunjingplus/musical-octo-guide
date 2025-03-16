@@ -2,7 +2,6 @@
 import { useState, useRef, useEffect } from "react";
 import Header from "@/components/Header";
 import MusicPlayer from "../../../components/Music";
-// import Player from "@/components/Player";
 import { useSession } from "next-auth/react";
 import { useSignInModal } from "@/components/signinmodel";
 const MusicComponent = () => {
@@ -33,8 +32,7 @@ const MusicComponent = () => {
   }, []);
   // 加载音乐列表
   const fetchMusicList = async (page = 1) => {
-    let a = "https://cdn1.suno.ai/a01a8c69-67cb-476b-a243-1b10a57036d4.mp3";
-    saveGoogleCloud(a);
+   
     if (isLoading || !hasMore) return; // 防止重复加载
     setIsLoading(true);
     try {
@@ -87,7 +85,7 @@ const MusicComponent = () => {
       return null;
     }
     const data = await response.json();
-    console.log("Fetched data:", data);
+    // console.log("Fetched data:", data);
     return data;
   };
 
@@ -107,12 +105,12 @@ const MusicComponent = () => {
         (response.data.status === "IN_PROGRESS" ||
           response.data.status === "NOT_START")
       ) {
-        console.log("Music generation in progress...");
+        // console.log("Music generation in progress...");
       } else if (
         response.code === "success" &&
         response.data.status === "SUCCESS"
       ) {
-        console.log("Music generation succeeded");
+        // s("Music generation succeeded");
         if (type === "TASK") {
           //获取歌词
           const text = response.data.text;
@@ -132,7 +130,7 @@ const MusicComponent = () => {
             break;
           }
           // 存储音乐数据
-          console.log("存储数据", musicData);
+          // console.log("存储数据", musicData);
           await saveMusicToDatabase(musicData);
           for (const item of musicData) {
             await saveGoogleCloud(item.audioUrl);
@@ -159,9 +157,9 @@ const MusicComponent = () => {
 
       attempts++;
       delay = Math.min(delay + 2000, 30000); // 增加延迟时间，最大不超过 30 秒
-      console.log(
-        `Attempt ${attempts}, retrying in ${delay / 1000} seconds...`
-      );
+      // console.log(
+      //   `Attempt ${attempts}, retrying in ${delay / 1000} seconds...`
+      // );
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
 
@@ -245,7 +243,7 @@ const MusicComponent = () => {
         body: JSON.stringify(data),
       });
       const result = await response.json();
-      console.log("res", result);
+      // console.log("res", result);
       if (!response.ok) {
         setSubmitting(false);
         alert("Failed to generate music. Please try again.");
@@ -376,7 +374,6 @@ const MusicComponent = () => {
         </div>
         <div className="border-dashed border-4 border-gray-500/40 p-4 rounded-md flex-1 overflow-auto">
           {/* <MusicPlayer></MusicPlayer> */}
-          {/* <Player /> */}
 
           {/* 原来的第三个虚线框内容 */}
           <div className=" p-4 rounded-md flex-1 overflow-auto">

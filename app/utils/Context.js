@@ -30,7 +30,7 @@ export const AppContextProvider = ({ children }) => {
 
   // 添加歌曲到播放列表
   const appendPlaylist = (newSong) => {
-    console.log("添加新歌曲", newSong);
+    // console.log("添加新歌曲", newSong);
     setPlaylist((currentPlaylist) => [newSong, ...currentPlaylist]);
   };
 
