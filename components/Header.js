@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import UserLoginIn from "./UserLoginIn";
 import logo from "@/app/icon.png";
-import config from "../../../../config";
+import config from "../config";
 
 const links = [
   {

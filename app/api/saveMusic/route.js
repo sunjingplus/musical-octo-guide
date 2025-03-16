@@ -2,7 +2,7 @@ import { db } from "../../../db";
 import { music, users } from "../../../db/schema";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../../libs/lib/auth";
-import { eq } from "drizzle-orm";
+import { eq,and } from "drizzle-orm";
 import { z } from "zod";
 
 // 定义数据验证规则
