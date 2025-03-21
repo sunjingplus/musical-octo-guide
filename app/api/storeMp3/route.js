@@ -28,13 +28,14 @@ export async function POST(req) {
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15);
     const destinationBlobName = `audio-files/${uniqueId}.mp3`;
-    // console.log("Destination Blob Name:", destinationBlobName);
-    // console.log("MP3 URL:", data.mp3Url);
 
     // 下载 MP3 文件
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     let response;
     try {
-      response = await fetch(data.mp3Url);
+      response = await fetch(data.mp3Url, { signal });
       if (!response.ok) {
         throw new Error(`Failed to fetch MP3 file: ${response.status} ${response.statusText}`);
       }
@@ -47,22 +48,24 @@ export async function POST(req) {
     }
 
     const buffer = await response.arrayBuffer();
-    // console.log("File downloaded successfully. Buffer length:", buffer.byteLength);
 
     // 上传到 Google Cloud Storage
-    try {
-      await storage
-        .bucket(bucketName)
-        .file(destinationBlobName)
-        .save(Buffer.from(buffer));
-      // console.log("File uploaded successfully");
-    } catch (error) {
+    const file = storage.bucket(bucketName).file(destinationBlobName);
+    const stream = file.createWriteStream();
+
+    stream.end(Buffer.from(buffer));
+
+    stream.on('finish', () => {
+      console.log("File uploaded successfully");
+    });
+
+    stream.on('error', (error) => {
       console.error("Upload error:", error.message, error.stack);
       return NextResponse.json(
         { message: "Failed to upload file to Google Cloud Storage", error: error.message },
         { status: 500 }
       );
-    }
+    });
 
     return NextResponse.json(
       {
