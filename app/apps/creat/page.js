@@ -216,8 +216,11 @@ const MusicComponent = () => {
   };
   //提交
   const handleSubmit = async (event) => {
+    console.log('submit',session);
+    
     if (!session) {
       setShowSignInModal(true);
+      return
     }
     setSubmitting(true);
     event.preventDefault();
@@ -243,7 +246,7 @@ const MusicComponent = () => {
         body: JSON.stringify(data),
       });
       const result = await response.json();
-      // console.log("res", result);
+      console.log("res", result);
       if (!response.ok) {
         setSubmitting(false);
         alert("Failed to generate music. Please try again.");
@@ -386,7 +389,7 @@ const MusicComponent = () => {
               ) : (
                 <></>
               )}
-              <div class="flex flex-col justify-center items-center ">
+              <div className="flex flex-col justify-center items-center ">
                 <p className="text-white font-medium">{musicName}</p>
                 <p>{musiLy}</p>
               </div>

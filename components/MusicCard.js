@@ -9,7 +9,7 @@ const MusicCard = ({ imageUrl, author, songName, isPlaying, onClick }) => {
           src={imageUrl}
           alt={songName}
           layout="fill"
-          objectFit="cover"
+          // objectFit="cover"
           className="rounded-lg"
         />
         {/* 图片中心的 icon */}

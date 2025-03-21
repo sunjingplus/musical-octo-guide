@@ -19,7 +19,7 @@ const MusicWorld = () => {
           className="w-[70vw] object-cover rounded-xl"
           alt="Rotating Image"
           placeholder="blur"
-          priority={true}
+          priority="true"
         />
         <div className="relative top-[-20vh] w-full h-[20vh] bg-gradient-to-b from-transparent to-gray-900"></div>
       </div>

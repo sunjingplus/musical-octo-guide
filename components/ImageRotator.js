@@ -37,8 +37,8 @@ const ImageRotator = () => {
             className="w-[80vw] object-cover rounded-xl"
             alt="Rotating Image"
             placeholder="blur"
-            priority={true}
-          />
+            priority="true"
+            />
         </div>
       </div>
     </>

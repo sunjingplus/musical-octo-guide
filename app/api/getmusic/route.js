@@ -21,6 +21,8 @@ export async function GET(req) {
   // 验证会话
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
+    console.log('error',session);
+    
     return Response.json(
       { code: "unauthorized", message: "需要登录" },
       { status: 401 }
@@ -66,6 +68,7 @@ export async function GET(req) {
       taskId: item.taskId,
       createdAt: item.createdAt,
     }));
+// console.log('musicList',musicList);
 
     return NextResponse.json(transformedList, { status: 200 });
   } catch (error) {

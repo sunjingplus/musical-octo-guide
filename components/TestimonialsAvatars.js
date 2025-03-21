@@ -24,7 +24,7 @@ const avatars = [
   },
 ];
 
-const TestimonialsAvatars = ({ priority = false }) => {
+const TestimonialsAvatars = () => {
   return (
     <div className="flex flex-col md:flex-row justify-center items-center md:items-start gap-3">
       {/* AVATARS */}
@@ -34,7 +34,7 @@ const TestimonialsAvatars = ({ priority = false }) => {
             <Image
               src={image.src}
               alt={image.alt}
-              priority={priority}
+              priority="true"
               width={50}
               height={50}
             />

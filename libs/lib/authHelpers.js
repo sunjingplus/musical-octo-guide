@@ -16,6 +16,7 @@ export async function getOrCreateUser(profile, account) {
     .limit(1);
 
   if (userdb && userdb.length > 0) {
+    
     const user = userdb[0];
     await updateExistingUser(user, profile, account);
     // 更新会话和验证令牌
@@ -42,6 +43,7 @@ async function updateExistingUser(user, profile, account) {
       name: user.name ?? profile.name,
       image: profile.picture,
       emailVerified: user.emailVerified ?? new Date(),
+      updatedAt:new Date()
     })
     .where(eq(users.id, user.id));
 
@@ -57,6 +59,7 @@ async function updateExistingUser(user, profile, account) {
       expires_at: account.expires_at,
       scope: account.scope,
       id_token: account.id_token,
+      updatedAt:new Date()
     })
     .where(eq(accounts.userId, user.id));
 }
@@ -177,6 +180,21 @@ export async function getOrCreateSession(userId) {
     .from(sessions)
     .where(eq(sessions.userId, userId))
     .limit(1);
+
+  if (!session) {
+    const sessionToken = generateToken(); // 生成随机会话令牌
+    const sessionExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 小时后过期
+
+    [session] = await db
+      .insert(sessions)
+      .values({
+        userId: userId,
+        sessionToken: sessionToken,
+        expires: sessionExpires,
+      })
+      .returning();
+  }
+
   return session;
 }
 
@@ -186,37 +204,32 @@ export async function getOrCreateSession(userId) {
  * @returns 验证令牌信息
  */
 export async function getOrCreateVerificationToken(email) {
-  // 查询现有的验证令牌
   let [verificationToken] = await db
     .select()
     .from(verificationTokens)
     .where(eq(verificationTokens.identifier, email))
     .limit(1);
 
-  // 如果 Token 存在但已过期，删除旧的 Token
-  if (verificationToken && new Date() > new Date(verificationToken.expires)) {
-    await db
-      .delete(verificationTokens)
-      .where(eq(verificationTokens.identifier, email));
-    verificationToken = null;
-  }
-
-  // 如果 Token 不存在或已过期，创建新的 Token
-  if (!verificationToken) {
+  if (!verificationToken || new Date() > new Date(verificationToken.expires)) {
     const newToken = {
       identifier: email,
-      token: generateToken(), // 生成令牌的逻辑
-      expires: tokenExpires, // 1 小时后过期
+      token: generateToken(), // 生成随机令牌
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 小时后过期
     };
 
-    await db.insert(verificationTokens).values(newToken);
-
-    // 手动查询新创建的记录
-    [verificationToken] = await db
-      .select()
-      .from(verificationTokens)
-      .where(eq(verificationTokens.identifier, email))
-      .limit(1);
+    if (verificationToken) {
+      // 如果令牌已过期，更新现有令牌
+      await db
+        .update(verificationTokens)
+        .set(newToken)
+        .where(eq(verificationTokens.identifier, email));
+    } else {
+      // 如果令牌不存在，创建新令牌
+      [verificationToken] = await db
+        .insert(verificationTokens)
+        .values(newToken)
+        .returning();
+    }
   }
 
   return verificationToken;

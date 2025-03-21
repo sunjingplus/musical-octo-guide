@@ -30,12 +30,15 @@ export async function POST(req) {
         input: payload,
       }),
     });
-    // const data = await response.json();
-    // console.log("结果数据", data);
+    const data = await response.json();
+    // console.log("结果数据", data,response.ok);
     // 检查响应状态
     if (response.ok) {
-      const jsonRes = await response.json(response);
-      return NextResponse.json(jsonRes, { status: 201 });
+      // console.log('ok',response);
+      
+      // const jsonRes = await response.json();
+
+      return NextResponse.json(data, { status: 201 });
     } else {
       // 处理HTTP错误
       console.error("HTTP Error:", response.statusText);
@@ -54,7 +57,10 @@ export async function GET(req) {
 
   if (!id) {
     // 如果没有提供 id，返回 400 错误
-    return NextResponse.json({ message: "Missing 'id' parameter" }, { status: 400 });
+    return NextResponse.json(
+      { message: "Missing 'id' parameter" },
+      { status: 400 }
+    );
   }
 
   // 构造完整的 API 请求 URL
@@ -74,7 +80,10 @@ export async function GET(req) {
       // 如果响应状态码不是 2xx，返回错误信息
       const error = await response.json();
       console.error("API Error:", error);
-      return NextResponse.json({ message: error.message || "API request failed" }, { status: response.status });
+      return NextResponse.json(
+        { message: error.message || "API request failed" },
+        { status: response.status }
+      );
     }
 
     // 解析响应数据
@@ -82,7 +91,10 @@ export async function GET(req) {
 
     // 检查返回的 JSON 数据中是否有错误信息
     if (jsonRes.code !== "success") {
-      return NextResponse.json({ message: jsonRes.message || "API request failed" }, { status: 500 });
+      return NextResponse.json(
+        { message: jsonRes.message || "API request failed" },
+        { status: 500 }
+      );
     }
 
     // 返回成功响应
@@ -90,6 +102,9 @@ export async function GET(req) {
   } catch (error) {
     // 捕获网络请求或其他错误
     console.error("Error fetching data:", error);
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
