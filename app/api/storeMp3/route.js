@@ -1,5 +1,6 @@
 import { Storage } from "@google-cloud/storage";
 import { NextResponse } from "next/server";
+import { AbortController } from 'abort-controller'; 
 import fetch from "node-fetch";
 
 const bucketName = "eclicktech_test_0312";
